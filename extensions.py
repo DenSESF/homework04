@@ -76,12 +76,10 @@ class ExchangeCurrency:
     def get_price(base: str, quote: str, amount: float) -> float:
 
         def connect_exchange_api(buffer_rate):
-            temp_dict = buffer_rate
             if buffer_rate is None:
                 temp_dict = {}
-                url = f'{URL}{API_ID}'
                 headers = {"accept": "application/json"}
-                response = requests.get(url, headers=headers)
+                response = requests.get(f'{URL}{API_ID}', headers=headers)
                 response_dict = json.loads(response.content)
 
                 for val in CURRENCY_KEYS.values():
@@ -89,7 +87,7 @@ class ExchangeCurrency:
 
                 return ExchangeCurrency.buffer_rates(temp_dict)
             else:
-                return temp_dict
+                return buffer_rate
 
         rates_dict = connect_exchange_api(ExchangeCurrency.buffer_rates(None))
 
